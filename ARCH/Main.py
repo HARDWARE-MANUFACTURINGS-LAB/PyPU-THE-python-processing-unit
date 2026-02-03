@@ -3,6 +3,7 @@ from ARCH.ARDUINO import PyPU_AVR
 from ARCH.Esp32 import PyPU_ESP32
 from ARCH.Stm32nucleo import PyPU_ARM
 from ARCH.Amd64 import PyPU_X64
+from ARCH.x86 import PyPU_X86
 from ARCH.RISCV import PyPU_RISCV
 
 class PyPU_Commander:
@@ -14,6 +15,7 @@ class PyPU_Commander:
             'ESP32': PyPU_ESP32,
             'ARM': PyPU_ARM,
             'X64': PyPU_X64,
+            'X86': PyPU_X86,
             'RISCV': PyPU_RISCV
         }
 
@@ -26,7 +28,6 @@ class PyPU_Commander:
         engine.execute_or_flash(instructions)
 
 if __name__ == "__main__":
-    
-    target_arch = 'RISCV' 
+    target_arch = sys.argv[1] if len(sys.argv) > 1 else 'X64'
     commander = PyPU_Commander(target_arch)
-    commander.deploy("x10 = 5\nx11 = 10")
+    commander.deploy(sys.stdin.read())
